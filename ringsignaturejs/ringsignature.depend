@@ -1,0 +1,97 @@
+# depslib dependency file v1.0
+1447519707 source:c:\users\user\documents\ringsignature\main.cpp
+	<iostream>
+	<array>
+	<string>
+	<sstream>
+	<iomanip>
+	<boost/random/random_device.hpp>
+	"secp256k1.h"
+	"util.h"
+	"scalar.h"
+	"scalar_8x32_impl.h"
+	"field_impl.h"
+	"field.h"
+	"group.h"
+	"group_impl.h"
+	"ecmult_impl.h"
+	"sha3.h"
+
+1439156140 c:\users\user\documents\ringsignature\secp256k1.h
+
+1439156140 c:\users\user\documents\ringsignature\util.h
+	"libsecp256k1-config.h"
+	<stdlib.h>
+	<stdint.h>
+	<stdio.h>
+
+1439156140 c:\users\user\documents\ringsignature\field_impl.h
+	"libsecp256k1-config.h"
+	"util.h"
+	"field_10x26_impl.h"
+	"field_5x52_impl.h"
+
+1439156140 c:\users\user\documents\ringsignature\field_5x52_impl.h
+	"libsecp256k1-config.h"
+	<string.h>
+	"util.h"
+	"num.h"
+	"field.h"
+	"field_5x52_asm_impl.h"
+	"field_5x52_int128_impl.h"
+
+1439156140 c:\users\user\documents\ringsignature\num.h
+	"libsecp256k1-config.h"
+	"num_gmp.h"
+
+1439156140 c:\users\user\documents\ringsignature\num_gmp.h
+	<gmp.h>
+
+1439156140 c:\users\user\documents\ringsignature\field.h
+	"libsecp256k1-config.h"
+	"field_10x26.h"
+	"field_5x52.h"
+
+1439156140 c:\users\user\documents\ringsignature\field_5x52.h
+	<stdint.h>
+
+1439156140 c:\users\user\documents\ringsignature\field_5x52_asm_impl.h
+
+1428871396 c:\users\user\documents\ringsignature\field_5x52_int128_impl.h
+	<stdint.h>
+
+1439156140 c:\users\user\documents\ringsignature\group.h
+	"num.h"
+	"field.h"
+
+1439156140 c:\users\user\documents\ringsignature\group_impl.h
+	<string.h>
+	"num.h"
+	"field.h"
+	"group.h"
+
+1446217204 c:\users\user\documents\ringsignature\sha3.h
+
+1439156140 c:\users\user\documents\ringsignature\scalar.h
+	"num.h"
+	"libsecp256k1-config.h"
+	"scalar_4x64.h"
+	"scalar_8x32.h"
+
+1428871396 c:\users\user\documents\ringsignature\scalar_4x64.h
+	<stdint.h>
+
+1439156140 c:\users\user\documents\ringsignature\scalar_8x32.h
+	<stdint.h>
+
+1439156140 c:\users\user\documents\ringsignature\scalar_8x32_impl.h
+
+1439156140 c:\users\user\documents\ringsignature\ecmult_impl.h
+	"group.h"
+	"scalar.h"
+	"ecmult.h"
+
+1439156140 c:\users\user\documents\ringsignature\ecmult.h
+	"num.h"
+	"group.h"
+
