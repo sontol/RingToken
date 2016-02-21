@@ -3,7 +3,7 @@
  
  Here is the rationale of the selection. The parts in Solidity is written for readability, the Assembly is for parts that requires optimization, nwjs is because of the most straightforward integration with the node while also has an acceptable UI. C is used for crypto simply because I am more familiar with libsepc256k1 which also happens to be written in C.
  
- ## How to Build
+## How to Build
  
 ### The Contract
  
