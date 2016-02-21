@@ -30,7 +30,15 @@ Normally I did the testing by running nw ./ on the folder containing the html fi
 ### The Cryptos
 
 I used some part of libsecp256k1 and sha3 from Ethereum's repo. It is included in the folder. Since everything is a header I just include them all. I used [nw-gyp] to create the .node file and copy that file to the root of the .html file.
- 
+
+# Usage Note
+
+Folder pubkeys, privkeys, and keychain.txt need to be copied between Mint and Mix to keep it synchronized
+
+# Donation
+
+Well, if you want to give me money I won't say no :) ETH(0x76fb135944db90c440fe881e07e7f5d7e6b82bcb)
+
  [realtime compiler]: https://chriseth.github.io/browser-solidity/
 [Level]: https://github.com/Level
 [nw-gyp]: https://github.com/nwjs/nw-gyp
