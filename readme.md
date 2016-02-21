@@ -5,17 +5,17 @@
  
  ## How to Build
  
- ### The Contract
+### The Contract
  
- #### Solidity 
+#### Solidity 
  
  I used the [realtime compiler] to compile and used the web3 deployment code while substituting the appropriate addresses for library used
  
- #### Assembly
+#### Assembly
  
  I used my own ethasm to generate the bytecode, manually add the init part and send the transaction with the bytecode as data while omitting the to. I think it would be more expensive to do this after Homestead but I'm not yet familiar with the alternatives.
  
- ### The Frontend 
+### The Frontend 
  
  The frontend uses nwjs, which is just Node.js with the added DOM. 
  
