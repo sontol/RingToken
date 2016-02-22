@@ -695,6 +695,7 @@
           if (err.notFound) {
             privkey_db.put('start', web3.toHex(0));
             privkey_start = web3.toHex(0);
+			fetchPrivkey(Pubkeystr,original_mixin);
           }
           // I/O or other error, pass it up the callback chain
           else {
