@@ -465,7 +465,9 @@
             return;
           }
         }
+		else{
         pubkey_end = value;
+		}
       });
       privkey_db.get('end', function(err, value) {
         if (err) {
@@ -479,7 +481,9 @@
             return;
           }
         }
+		else{
         privkey_end = value;
+		}
       });
     } catch (err) {
       alert(err);
