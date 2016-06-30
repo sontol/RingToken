@@ -22,8 +22,8 @@ library PointonCurve{
 }
 library RingLibrary
 {
-function createLs(uint256[] Px,uint256[] Py,uint256[] cs,uint256[] rs) returns (uint256[12]) {
-    uint256[12] memory Ls;
+function createLs(uint256[] Px,uint256[] Py,uint256[] cs,uint256[] rs) returns (uint256[19]) {
+    uint256[19] memory Ls;
     uint256[10] memory params; 
     uint256 mixin=Px.length;
     for (uint i=0;i<mixin;i++)
@@ -167,11 +167,8 @@ contract RingToken{
             Error("Mix",msg.sender,2);
             return false;
         }
-        temp=RingVerify.Verify(Ix,Iy,Px,Py,cs,rs);//VER
-        temp[Px.length*4]=Pubkeydestx;
-        temp[Px.length*4+1]=Pubkeydesty;
-        temp[0]=SHA.SHA3(Px.length,temp);//Solidity doesn't allow partial SHA3 so I create my own
-        if (temp[0]!=temp[18]){
+        temp[0]=RingVerify.Verify(Ix,Iy,Px,Py,cs,rs,Pubkeydestx,Pubkeydesty);//VER
+        if (temp[0]!=0){
             Error("Mix",msg.sender,3);
             return false;
         }
@@ -224,6 +221,16 @@ contract RingToken{
         }
         
     }
+    function getBalance(uint256 Ix, uint256 Iy) constant returns  (uint256){
+    
+        if (Iy&1==0){
+            return (pointlist[Ix]&4);
+        }
+        else{
+            return (pointlist[Ix]&8);
+            
+        }
+    }
  
    
 }
@@ -233,20 +240,22 @@ library SHA{
 library RingVerify{
 
 
-function Verify(uint256 Ix,uint256 Iy,uint256[] Px,uint256[] Py,uint256[] cs,uint256[] rs)returns(uint256[19] LRBytes){
+function Verify(uint256 Ix,uint256 Iy,uint256[] Px,uint256[] Py,uint256[] cs,uint256[] rs,uint256 Pubkeydestx,uint256 Pubkeydesty)returns(uint256){
 
 
-
-        uint256[12] memory Ls;
+        uint256[19] memory LRBytes;
         uint256[12] memory Rs;
         uint256[8] memory inverts;
         uint8 i;
         uint256 temp;
-        Ls=RingLibrary.createLs(Px,Py,cs,rs);
+        if (Px.length==1){
+            return Verify_1( Ix,Iy,Px[0], Py[0], cs[0], rs[0],Pubkeydestx,Pubkeydesty);
+        }
+        LRBytes=RingLibrary.createLs(Px,Py,cs,rs);
         Rs=RingLibrary.createRs(Ix,Iy,Px,Py,cs,rs);
         for ( i = 0;i < Px.length;i++)
        {
-           inverts[i]=Ls[3*i+2];
+           inverts[i]=LRBytes[3*i+2];
            inverts[i+Px.length]=Rs[3*i+2];
        }
 
@@ -256,9 +265,13 @@ function Verify(uint256 Ix,uint256 Iy,uint256[] Px,uint256[] Py,uint256[] cs,uin
         for ( i= 0;i< Px.length;i++)
         {
             temp = mulmod(inverts[i],inverts[i],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
-            LRBytes[2*i] = mulmod(Ls[3*i],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+            LRBytes[2*i] = mulmod(LRBytes[3*i],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
             temp = mulmod(temp,inverts[i],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
-            LRBytes[2*i+1] = mulmod(Ls[3*i+1],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+            LRBytes[2*i+1] = mulmod(LRBytes[3*i+1],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+            
+        }
+        for ( i= 0;i< Px.length;i++)
+        {
             temp= mulmod(inverts[i+Px.length],inverts[i+Px.length],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
             LRBytes[2*i+2*Px.length] = mulmod(Rs[3*i],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
             temp = mulmod(temp,inverts[i+Px.length],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
@@ -266,12 +279,57 @@ function Verify(uint256 Ix,uint256 Iy,uint256[] Px,uint256[] Py,uint256[] cs,uin
         LRBytes[18]=addmod(LRBytes[18],cs[i],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141);
             
         }
-        
-        return(LRBytes);
+        LRBytes[4*Px.length]=Pubkeydestx;
+        LRBytes[4*Px.length+1]=Pubkeydesty;
+        LRBytes[0]=SHA.SHA3(Px.length,LRBytes);
+        return(LRBytes[0]^LRBytes[18]);
+        //return(0);
 
- 
- 
+ }
+ function Verify_1(uint256 Ix,uint256 Iy,uint256 Px,uint256 Py,uint256 cs,uint256 rs,uint256 Pubkeydestx,uint256 Pubkeydesty)returns(uint256){
+
+    uint256[10] memory params;
+    uint256[19] memory LRBytes;
+    uint256[8] memory inverts;
+    uint256 temp;
+    params[0]=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798;
+        params[1]=0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8;
+        params[2]=1;
+        params[3]=0;
+        params[4]=Px;
+        params[5]=Py;
+        params[6]=1;
+        params[7]=0;
+        params[8]=rs;
+        params[9]=cs;
+        (LRBytes[0],LRBytes[1],LRBytes[2]) = ecmult_no_gen.ecmult(params);
+        params[0]=Ix;
+        params[1]=Iy;
+        params[2]=1;
+        params[3]=0;
+        (params[4],params[5])=Hp.deterministic_hash(Px,Py);
+        params[6]=1;
+        params[7]=0;
+        params[8]=cs;
+        params[9]=rs;
+        (LRBytes[3],LRBytes[4],LRBytes[5]) = ecmult_no_gen.ecmult(params);
+        inverts[0]=LRBytes[2];
+        inverts[1]=LRBytes[5];
         
+        inverts=RingLibrary.create_inverse(2,inverts);
+        temp = mulmod(inverts[0],inverts[0],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        LRBytes[0] = mulmod(LRBytes[0],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        temp = mulmod(temp,inverts[0],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        LRBytes[1] = mulmod(LRBytes[1],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        temp = mulmod(inverts[1],inverts[1],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        LRBytes[2] = mulmod(LRBytes[3],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        temp = mulmod(temp,inverts[1],0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        LRBytes[3] = mulmod(LRBytes[4],temp,0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F);
+        
+        LRBytes[4]=Pubkeydestx;
+        LRBytes[5]=Pubkeydesty;
+        
+        temp=SHA.SHA3(1,LRBytes);
+        return(temp^cs);
 }
-
 }

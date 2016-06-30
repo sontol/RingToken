@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Test</title>
-  <meta name="generator" content="Google Web Designer 1.5.4.0113">
+  <title>Mint</title>
+  <meta name="generator" content="Google Web Designer 1.6.0.0429">
   <meta name="template" content="Expandable 2.3.2">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style type="text/css" id="gwd-lightbox-style">
@@ -242,7 +242,7 @@
   <link href="gwdpage_style.css" data-version="8" data-exports-type="gwd-page" rel="stylesheet">
   <link href="gwdpagedeck_style.css" data-version="8" data-exports-type="gwd-pagedeck" rel="stylesheet">
   <script data-source="googbase_min.js" data-version="3" data-exports-type="googbase" type="text/javascript" src="googbase_min.js"></script>
-  <script data-source="gwd_webcomponents_min.js" data-version="4" data-exports-type="gwd_webcomponents" type="text/javascript" src="gwd_webcomponents_min.js"></script>
+  <script data-source="gwd_webcomponents_min.js" data-version="5" data-exports-type="gwd_webcomponents" type="text/javascript" src="gwd_webcomponents_min.js"></script>
   <script data-source="gwdpage_min.js" data-version="8" data-exports-type="gwd-page" type="text/javascript" src="gwdpage_min.js"></script>
   <script data-source="gwdpagedeck_min.js" data-version="8" data-exports-type="gwd-pagedeck" type="text/javascript" src="gwdpagedeck_min.js"></script>
 </head>
@@ -251,10 +251,10 @@
   <div is="gwd-pagedeck" class="gwd-page-container" id="pagedeck">
     <div is="gwd-page" id="page1" class="gwd-page-wrapper page1-content gwd-lightbox" data-gwd-width="550px" data-gwd-height="400px">
       <div class="gwd-page-content page1-content">
-        <p class="gwd-p-128w" id="title"><span class="gwd-span-13tm">Mint</span>
-          <br class="">
-        </p>
-        <br style="">
+        <p class="gwd-p-128w" id="title"><span class="gwd-span-13tm">Mint</span><br>
+          
+        </p><br>
+        
         <p class="gwd-p-6dxz" id="submit" onclick="mint()">Mint</p>
         <form class="gwd-form-lk8o" id="form1" style="">
           <input type="radio" name="sendto" value="ownaccount" class="gwd-input-7k1k gwd-input-17t9" id="sendtoown" checked="" onclick="DisableTextBox()">
@@ -306,14 +306,14 @@
     })();
   </script>
   <script type="text/javascript">
-   var abi=[{"constant":false,"inputs":[{"name":"pubkey","type":"uint256[2]"},{"name":"ecdhkey","type":"uint256[2]"}],"name":"Mint","outputs":[{"name":"","type":"bool"}],"type":"function"},{"constant":false,"inputs":[{"name":"Ix","type":"uint256"},{"name":"Iy","type":"uint256"},{"name":"Px","type":"uint256[]"},{"name":"Py","type":"uint256[]"},{"name":"cs","type":"uint256[]"},{"name":"rs","type":"uint256[]"},{"name":"Pubkeydestx","type":"uint256"},{"name":"Pubkeydesty","type":"uint256"},{"name":"ecdhx","type":"uint256"},{"name":"ecdhy","type":"uint256"}],"name":"Mix","outputs":[{"name":"","type":"bool"}],"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"function_name","type":"bytes32"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"errcode","type":"uint256"}],"name":"Error","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"x","type":"uint256"},{"indexed":false,"name":"y","type":"uint256"},{"indexed":false,"name":"ecdhx","type":"uint256"},{"indexed":false,"name":"ecdhy","type":"uint256"}],"name":"Deposited","type":"event"}];
+    var abi = [{"constant":false,"inputs":[{"name":"Ix","type":"uint256"},{"name":"Iy","type":"uint256"}],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"pubkey","type":"uint256[2]"},{"name":"ecdhkey","type":"uint256[2]"}],"name":"Mint","outputs":[{"name":"","type":"bool"}],"type":"function"},{"constant":false,"inputs":[{"name":"Ix","type":"uint256"},{"name":"Iy","type":"uint256"},{"name":"Px","type":"uint256[]"},{"name":"Py","type":"uint256[]"},{"name":"cs","type":"uint256[]"},{"name":"rs","type":"uint256[]"},{"name":"Pubkeydestx","type":"uint256"},{"name":"Pubkeydesty","type":"uint256"},{"name":"ecdhx","type":"uint256"},{"name":"ecdhy","type":"uint256"}],"name":"Mix","outputs":[{"name":"","type":"bool"}],"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"function_name","type":"bytes32"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"errcode","type":"uint256"}],"name":"Error","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"x","type":"uint256"},{"indexed":false,"name":"y","type":"uint256"},{"indexed":false,"name":"ecdhx","type":"uint256"},{"indexed":false,"name":"ecdhy","type":"uint256"}],"name":"Deposited","type":"event"}];
 
 
     var Web3 = require('web3');
     var web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider('http://127.0.0.1:8545'));
     var RingToken = web3.eth.contract(abi);
-    var RingTokenInstance = RingToken.at('0xac4e1613225d8aec26da2ac7fc17a62b970280d2');
+    var RingTokenInstance = RingToken.at('0x6734cf69ea2b0c925aad6e02774dadea4a8897d6');
     var Deposited = RingTokenInstance.Deposited();
     var privkey_end;
     var pubkey_end;
@@ -333,10 +333,9 @@
             alert(err);
             return;
           }
+        } else {
+          pubkey_end = value;
         }
-		else{
-        pubkey_end = value;
-		}
       });
       privkey_db.get('end', function(err, value) {
         if (err) {
@@ -349,10 +348,9 @@
             alert(err);
             return;
           }
+        } else {
+          privkey_end = value;
         }
-		else{
-        privkey_end = value;
-		}
       });
     } catch (err) {
       alert(err);
@@ -379,8 +377,11 @@
             var PyString = String("0000000000000000000000000000000000000000000000000000000000000000" + web3.toHex(result.args.y).substring(2)).slice(-64);
             var RxString = String("0000000000000000000000000000000000000000000000000000000000000000" + web3.toHex(result.args.ecdhx).substring(2)).slice(-64);
             var RyString = String("0000000000000000000000000000000000000000000000000000000000000000" + web3.toHex(result.args.ecdhy).substring(2)).slice(-64);
-            try{var privkey = ringsignature.is_our_pubkey(PxString, PyString, RxString, RyString, aString, AxString, AyString, bString, BxString, ByString);}
-            catch(err){alert(err)}
+            try {
+              var privkey = ringsignature.is_our_pubkey(PxString, PyString, RxString, RyString, aString, AxString, AyString, bString, BxString, ByString);
+            } catch (err) {
+              alert(err)
+            }
             console.log(bString);
             if (privkey != "") {
               privkey_db.put(privkey_end, privkey);
