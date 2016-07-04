@@ -429,7 +429,7 @@
     var web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider('http://127.0.0.1:8545'));
     var RingToken = web3.eth.contract(abi);
-    var RingTokenInstance = RingToken.at('0x6734cf69ea2b0c925aad6e02774dadea4a8897d6');
+    var RingTokenInstance = RingToken.at('0x2c76fea5534c812e42334bd530105bdcd395aba6');
     var Deposited = RingTokenInstance.Deposited();
     var privkey_end;
     var pubkey_end;
