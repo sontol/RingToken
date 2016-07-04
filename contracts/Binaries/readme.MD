@@ -1,0 +1,1 @@
+These are all the contracts binary and their location in testnet.
