@@ -1,3 +1,8 @@
+#Update as of 07/05/2016
+
+Today is a bitter sweet day as on one hand it marks the first alpha release of RingToken client and on the other hand today  is the day RingToken is officially abandoned. See https://www.reddit.com/r/ethereum/comments/4r0s2x/ringtoken_uploaded_into_testnet_but_project_will/ for details
+
+
 # Ring Token 
  Ring Token consist of 3 parts, the contract, the frontend, and the cryptos. The contract is written in mixed Solidity/Assembly while the fronted used nwjs and the cryptos is written in C.
  
