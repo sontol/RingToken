@@ -1,3 +1,7 @@
+#Update as of 07/11/2016
+
+Those who intend to reimplement the contract watch out for https://github.com/sontol/RingToken/issues/8
+
 #Update as of 07/05/2016
 
 Today is a bitter sweet day as on one hand it marks the first alpha release of RingToken client and on the other hand today  is the day RingToken is officially abandoned. See https://www.reddit.com/r/ethereum/comments/4r0s2x/ringtoken_uploaded_into_testnet_but_project_will/ for details
